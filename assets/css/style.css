@@ -45,5 +45,5 @@ ul {
 }
 .summary__item--prototype,
 .excursions__item--prototype {
-    display: none;
+    /* display: none; */
 }   
