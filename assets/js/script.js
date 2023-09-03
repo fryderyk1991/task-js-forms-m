@@ -1,5 +1,7 @@
 const uploaderInput = document.querySelector(".uploader__input");
 uploaderInput.addEventListener("change", uploadTravels);
+const spanTotalPrice = document.querySelector(".order__total-price-value");
+
 
 function uploadTravels(e) {
   const file = e.target.files[0];
@@ -97,7 +99,7 @@ function passTheValue(forms) {
       const adultNum = parseInt(form.querySelector("[name=adults]").value);
       const childNum = parseInt(form.querySelector("[name=children]").value);
       if (adultNum > 0 && adultNum < 11 && childNum > 0 && childNum < 11) {
-        if (!isNaN(adultNum) || !isNaN(adultNum)) {
+        if (!isNaN(adultNum) || !isNaN(childNum)) {
           const obj = {
             id: parentId,
             title: titleofTravel,
@@ -107,35 +109,48 @@ function passTheValue(forms) {
             childPrice: +childP,
             sum: childNum * childP + adultNum * adultP,
           };
-          if (!basket.some(el => el.id === obj.id)) {
+          if (!basket.some((el) => el.id === obj.id)) {
             basket.push(obj);
-            displayBasketData(basket)
+            displayBasketData(basket);
           }
         }
       } else {
         console.log("Wpisujemy tylko liczby w przedziale od 1 do 10 :)");
       }
-      
-      //zrobienie porządnej walidacji !!!
     });
   });
 }
 
 function displayBasketData(basket) {
-    const summaryList = document.querySelector('.summary');
-
-    basket.forEach(function (travel) {
-      summaryList.innerHTML += `
+  const summaryList = document.querySelector(".summary");
+  summaryList.innerHTML = "";
+  let total = 0; 
+  basket.forEach(function (travel) {
+    total += travel.sum;
+    summaryList.innerHTML += `
       <li data-id=${travel.id} class="summary__item summary__item--prototype">
       <h3 class="summary__title">
         <span class="summary__name">${travel.title}</span>
         <strong class="summary__total-price">${travel.sum} PLN</strong>
-        <a href="" class="summary__btn-remove" title="usuń">X</a>
+        <a href="#" class="summary__btn-remove" title="usuń" data-id=${travel.id}>X</a>
       </h3>
       <p class="summary__prices">dorośli:${travel.adultNumber} x ${travel.adultPrice}PLN, dzieci:${travel.childNumber} x ${travel.childPrice}PLN</p>
     </li>
-      `
-    })
-    console.log(basket)
+      `;
+  });
+  spanTotalPrice.innerHTML = `${total} PLN`;
+  const removeBtn = document.querySelectorAll('.summary__btn-remove');
 
+
+  removeBtn.forEach(function(btn){
+    btn.addEventListener('click', updateBasketData);
+  })
+  
 }
+function updateBasketData(e) {
+  const currentBtn = e.target;
+  const parentLi = currentBtn.parentElement.parentElement;
+  parentLi.remove()
+}
+
+
