@@ -1,7 +1,7 @@
 const uploaderInput = document.querySelector(".uploader__input");
 uploaderInput.addEventListener("change", uploadTravels);
 const spanTotalPrice = document.querySelector(".order__total-price-value");
-
+let basket = [];
 
 function uploadTravels(e) {
   const file = e.target.files[0];
@@ -83,7 +83,6 @@ function getListItemForm(listTravels) {
 }
 
 function passTheValue(forms) {
-  const basket = [];
   forms.forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault(e);
@@ -139,18 +138,24 @@ function displayBasketData(basket) {
       `;
   });
   spanTotalPrice.innerHTML = `${total} PLN`;
+ 
   const removeBtn = document.querySelectorAll('.summary__btn-remove');
 
 
   removeBtn.forEach(function(btn){
     btn.addEventListener('click', updateBasketData);
   })
+}
+
+  function updateBasketData(e) {
+    const currentBtn = e.target;
+    const currentBtnId = +currentBtn.dataset.id;
+    for(let i = 0; i < basket.length; i++) {
+      if (basket[i].id === currentBtnId) {
+        basket.splice(i, 1);
+        const updateBasket = displayBasketData(basket);
+      }
+    }
+  }
   
-}
-function updateBasketData(e) {
-  const currentBtn = e.target;
-  const parentLi = currentBtn.parentElement.parentElement;
-  parentLi.remove()
-}
-
-
+  
