@@ -2,6 +2,7 @@ const uploaderInput = document.querySelector(".uploader__input");
 uploaderInput.addEventListener("change", uploadTravels);
 const spanTotalPrice = document.querySelector(".order__total-price-value");
 let basket = [];
+ const formArray = [];
 
 function uploadTravels(e) {
   const file = e.target.files[0];
@@ -74,7 +75,7 @@ function addTravelsToDOM(travelsData) {
 
 function getListItemForm(listTravels) {
   const listItem = [...listTravels.children];
-  const formArray = [];
+  // const formArray = [];
   listItem.forEach(function (li) {
     const formEl = li.querySelector("form");
     formArray.push(formEl);
@@ -123,7 +124,7 @@ function passTheValue(forms) {
 function displayBasketData(basket) {
   const summaryList = document.querySelector(".summary");
   summaryList.innerHTML = "";
-  let total = 0; 
+  let total = 0;
   basket.forEach(function (travel) {
     total += travel.sum;
     summaryList.innerHTML += `
@@ -138,24 +139,79 @@ function displayBasketData(basket) {
       `;
   });
   spanTotalPrice.innerHTML = `${total} PLN`;
- 
-  const removeBtn = document.querySelectorAll('.summary__btn-remove');
 
+  const removeBtn = document.querySelectorAll(".summary__btn-remove");
 
-  removeBtn.forEach(function(btn){
-    btn.addEventListener('click', updateBasketData);
-  })
+  removeBtn.forEach(function (btn) {
+    btn.addEventListener("click", updateBasketData);
+  });
 }
 
-  function updateBasketData(e) {
-    const currentBtn = e.target;
-    const currentBtnId = +currentBtn.dataset.id;
-    for(let i = 0; i < basket.length; i++) {
-      if (basket[i].id === currentBtnId) {
-        basket.splice(i, 1);
-        const updateBasket = displayBasketData(basket);
-      }
+function updateBasketData(e) {
+  const currentBtn = e.target;
+  const currentBtnId = +currentBtn.dataset.id;
+  for (let i = 0; i < basket.length; i++) {
+    if (basket[i].id === currentBtnId) {
+      basket.splice(i, 1);
+      const updateBasket = displayBasketData(basket);
     }
   }
+}
+
+const orderForm = document.querySelector(".order");
+
+orderForm.addEventListener("submit", handleSubmit);
+
+
+const fields = [
+  { name: 'name', label: 'Imię i nazwisko'},
+  { name: 'email', label: 'Email', pattern: '@'},
+];
+
+
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const formEl = e.target;
+  const spanPriceValue = document.querySelector(
+    ".order__total-price-value"
+  ).innerHTML;
+  const errors = [];
+    const emailValue = formEl.elements[1].value;
+  fields.forEach(function(field) {
+    const value = formEl.elements[field.name].value;
+
+    if (field) {
+      if (value.length === 0) {
+        errors.push(`Dane w polu ${field.label} są wymagane`)
+      }
+    }
+    if (field.pattern) {
+      const reg = new RegExp(field.pattern);
+      if (!reg.test(value)) {
+        errors.push(`Dane w polu ${field.label} są nieprawidłowe`);
+      }
+    }
+  })
   
-  
+    
+  if (errors.length === 0) {
+    alert(`Dziekujemy za złożenie zamówienia o wartości ${spanPriceValue}. Szczegóły zamówienia zostały wysłane na adres e-mail: ${emailValue}`)
+    
+    fields.forEach(function(el) {
+      formEl[el.name].value = "";
+    })
+    formArray.forEach(function (item) {
+      const adultInput = item.querySelector('[name=adults]');
+      const childInput = item.querySelector('[name=children]');
+      adultInput.value = "";
+      childInput.value = "";
+    })
+  }
+  else {
+    errors.forEach(function(text) {
+     console.log(text)
+    })
+  }
+
+}
