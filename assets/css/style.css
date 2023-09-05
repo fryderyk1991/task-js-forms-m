@@ -3,39 +3,42 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+body {
+    font-family: 'Inter', sans-serif;
+}
 ul {
     list-style: none;
 }
-
+input, label {
+    display: block;
+}
 .panel {
-    display: flex;
     margin: 0 auto;
     max-width: 1200px;
     padding: 30px 0;
 }
-
 .panel__excursions {
-    width: 70%;
+    width: 100%;
 }
-
-.excursions {
+/* .excursions {
     display: flex;
     flex-wrap: wrap;
-}
-
+} */
 .excursions__item {
     border: 1px solid #bbb;
     border-radius: 5px;
-    margin: 10px;
+    margin: 20px;
     padding: 20px;
-    width: calc(50% - 20px);
+    /* width: calc(50% - 20px); */
+    background-color: #E1EAEF;
 }
 
 .panel__form {
-    background-color: #f4f4f4;
     padding: 20px;
-    width: 30%;
+    margin: 20px;
+    border-radius: 5px;
+    border: 1px solid #49B3E8;
+    max-width: 70%;
 }
 
 .uploader, .order {
@@ -43,7 +46,63 @@ ul {
     margin-bottom: 20px;
     padding-bottom: 20px;
 }
-.summary__item--prototype,
-.excursions__item--prototype {
-    /* display: none; */
-}   
+
+.text {
+    margin-top: 10px;
+}
+.excursions__field {
+   margin: 10px 0;
+}
+.excursions__field-input {
+    border-radius: 5px;
+    background-color: #8BC4E1;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+.excursions__field-input--submit {
+    padding: 15px;
+    margin-top: 15px;
+    background-color: #49B3E8;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+.order__total-price {
+    margin-bottom: 10px;
+}
+.order__field-input {
+    border-radius: 5px;
+    background-color: #8BC4E1;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+.order__field {
+    margin: 10px 0;
+}
+.order__field-submit {
+    padding: 15px;
+    margin-top: 15px;
+    background-color: #49B3E8;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+.order__errors-item {
+    color: red;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+@media (min-width: 760px) {
+    .excursions {
+        display: flex;
+    }
+    .panel__form {
+        margin: 0 auto;
+        max-width: 50%;
+    }
+}

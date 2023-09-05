@@ -180,13 +180,13 @@ function handleSubmit(e) {
 
     if (field) {
       if (value.length === 0) {
-        errors.push(`Dane w polu ${field.label} są wymagane`)
+        errors.push(`Dane w polu ${field.label} są wymagane!`)
       }
     }
     if (field.pattern) {
       const reg = new RegExp(field.pattern);
       if (!reg.test(value)) {
-        errors.push(`Dane w polu ${field.label} są nieprawidłowe`);
+        errors.push(`Dane w polu ${field.label} są nieprawidłowe!`);
       }
     }
   })
