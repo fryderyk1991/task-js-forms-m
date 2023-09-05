@@ -20,16 +20,11 @@ input, label {
 .panel__excursions {
     width: 100%;
 }
-/* .excursions {
-    display: flex;
-    flex-wrap: wrap;
-} */
 .excursions__item {
     border: 1px solid #bbb;
     border-radius: 5px;
     margin: 20px;
     padding: 20px;
-    /* width: calc(50% - 20px); */
     background-color: #E1EAEF;
 }
 
@@ -37,7 +32,6 @@ input, label {
     padding: 20px;
     margin: 20px;
     border-radius: 5px;
-    border: 1px solid #49B3E8;
     max-width: 70%;
 }
 
@@ -104,5 +98,11 @@ input, label {
     .panel__form {
         margin: 0 auto;
         max-width: 50%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .panel {
+        display: flex;
     }
 }
