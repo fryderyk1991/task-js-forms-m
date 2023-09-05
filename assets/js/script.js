@@ -2,7 +2,7 @@ const uploaderInput = document.querySelector(".uploader__input");
 uploaderInput.addEventListener("change", uploadTravels);
 const spanTotalPrice = document.querySelector(".order__total-price-value");
 let basket = [];
- const formArray = [];
+const formArray = [];
 
 function uploadTravels(e) {
   const file = e.target.files[0];
@@ -75,7 +75,6 @@ function addTravelsToDOM(travelsData) {
 
 function getListItemForm(listTravels) {
   const listItem = [...listTravels.children];
-  // const formArray = [];
   listItem.forEach(function (li) {
     const formEl = li.querySelector("form");
     formArray.push(formEl);
@@ -115,7 +114,7 @@ function passTheValue(forms) {
           }
         }
       } else {
-        console.log("Wpisujemy tylko liczby w przedziale od 1 do 10 :)");
+        alert("Wpisujemy tylko liczby w przedziale od 1 do 10 :)");
       }
     });
   });
@@ -159,20 +158,18 @@ function updateBasketData(e) {
 }
 
 const orderForm = document.querySelector(".order");
-
 orderForm.addEventListener("submit", handleSubmit);
-
 
 const fields = [
   { name: 'name', label: 'Imię i nazwisko'},
   { name: 'email', label: 'Email', pattern: '@'},
 ];
 
-
-
 function handleSubmit(e) {
   e.preventDefault();
   const formEl = e.target;
+  const listErrors = document.querySelector('.order__list-errors');
+  listErrors.innerText = "";
   const spanPriceValue = document.querySelector(
     ".order__total-price-value"
   ).innerHTML;
@@ -193,11 +190,11 @@ function handleSubmit(e) {
       }
     }
   })
-  
-    
   if (errors.length === 0) {
     alert(`Dziekujemy za złożenie zamówienia o wartości ${spanPriceValue}. Szczegóły zamówienia zostały wysłane na adres e-mail: ${emailValue}`)
-    
+    basket = [];
+    const summaryList = document.querySelector(".summary");
+    summaryList.innerText = "";
     fields.forEach(function(el) {
       formEl[el.name].value = "";
     })
@@ -210,8 +207,11 @@ function handleSubmit(e) {
   }
   else {
     errors.forEach(function(text) {
-     console.log(text)
+      const li = document.createElement('li');
+      li.classList.add('order__errors-item');
+      li.innerText = text;
+
+      listErrors.appendChild(li)
     })
   }
-
 }
